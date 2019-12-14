@@ -5,7 +5,7 @@ $newFile = '../../'.$fileName;
 
 if (file_exists($newFile)) {
     if (unlink($newFile)) {
-        echo 'Файл удалён';
+        echo 'Файл: '.$fileName.' удалён';
     }
 
     die;

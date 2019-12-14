@@ -8,8 +8,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <input type="text" name="" id="">
-    <button id="create-page-btn">Создать страницу</button>
+    <form id="createPageForm" action="./api/createNewHtmlPage.php">
+        <input type="text" name="name" required>
+        <button type="submit">Создать страницу</button>
+    </form>
 
     <script src="bundle.js"></script>
 </body>

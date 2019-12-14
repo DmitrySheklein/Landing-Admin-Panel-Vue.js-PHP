@@ -15,15 +15,21 @@ function getPagesList() {
 }
 getPagesList();
 
-$('#create-page-btn').click(() => {
-    $.post('./api/createNewHtmlPage.php', {
-            name: $('input[type="text"').val()
-        }, (data) => {
-            getPagesList();
-        })
-        .fail(() => {
-            console.error('Файл уже создан')
-        })
+$('#createPageForm').on('submit', (e)=>{
+    e.preventDefault();
+
+    const $form = $(e.target);    
+    const formData = $form.serialize();
+    const href = $form.attr('action');
+    
+    $.post(href, formData, (data)=>{
+        $form[0].reset();
+        getPagesList();
+        alert(data)    
+    })
+    .fail(()=>{
+        console.error('Файл уже создан')
+    })
 })
 
 $(document).on('click', '.remove-btn', (event) => {
@@ -33,7 +39,7 @@ $(document).on('click', '.remove-btn', (event) => {
             name: pageName
         }, (data) => {        
             getPagesList();
-            alert('Файл удалён успешно')    
+            alert(data)    
         })
         .fail(()=>{
             console.error('Файл не существует')
