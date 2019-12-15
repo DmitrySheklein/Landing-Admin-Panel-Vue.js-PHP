@@ -8,10 +8,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <form id="createPageForm" action="./api/createNewHtmlPage.php">
-        <input type="text" name="name" required>
-        <button type="submit">Создать страницу</button>
-    </form>
+    <div id="app">
+        <input type="text" v-model="pageName" required>
+        <div>{{pageName}}</div>
+        <button @click="createPage">Создать страницу</button>
+        <ul class="pageList">
+            <li v-for="(page, index) in pageList" :key="index">
+            {{ index }} - {{ page }} <button @click="deletePage(page)">Удалить</button>
+            </li>
+        </ul>
+    </div>
 
     <script src="bundle.js"></script>
 </body>
