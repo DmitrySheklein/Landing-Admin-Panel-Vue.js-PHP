@@ -1,6 +1,7 @@
 require('./iframe-load');
 const axios = require('axios')
 const DOMhelper = require('./dom-helper');
+const EditorText = require('./editor-text');
 
 module.exports = class Editor {
     constructor(){
@@ -24,10 +25,9 @@ module.exports = class Editor {
     }
     enableEditing(){
         this.iframe.contentDocument.body.querySelectorAll('text-editor').forEach((el)=>{
-            el.contentEditable = 'true';
-            el.addEventListener('input', ()=>{
-                this.onTextEdit(el);
-            })
+            const id = el.getAttribute('nodeid');
+            const virtualElement = this.virtualDom.body.querySelector(`[nodeid="${id}"]`);
+            new EditorText(el, virtualElement);
         })
     }
     injectStyle(){
@@ -44,10 +44,7 @@ module.exports = class Editor {
         `
         this.iframe.contentDocument.head.appendChild(style);
     }
-    onTextEdit(el){
-        const id = el.getAttribute('nodeid');
-        this.virtualDom.body.querySelector(`[nodeid="${id}"]`).innerHTML = el.innerHTML;
-    }
+
     save(){
         const newDom = this.virtualDom.cloneNode(this.virtualDom);
         DOMhelper.unwrapTextNodes(newDom)
