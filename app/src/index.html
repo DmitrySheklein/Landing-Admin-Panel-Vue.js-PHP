@@ -19,6 +19,26 @@
         </ul>
     </div> -->
     <iframe src="" frameborder="0"></iframe>
+    
+    <div id="app">
+        <div class="panel">
+            <button class="uk-button uk-button-primary uk-button-small" uk-toggle="target: #modal-example">Опубликовать</button>        
+        </div>
+        <!-- This is the modal -->
+        <div id="modal-example" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Сохранение</h2>
+                <p>Вы действительно хотите сохранить и опублиовать изменения?</p>
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Отменить</button>
+                    <button class="uk-button uk-button-primary uk-modal-close" type="button" @click="onBtnSave">Сохранить</button>
+                </p>
+            </div>
+        </div>
+        <div class="loader" v-bind:class="{'active': showLoader}">
+            <div uk-spinner></div>
+        </div>
+    </div>
     <script src="bundle.js"></script>
 </body>
 </html>
