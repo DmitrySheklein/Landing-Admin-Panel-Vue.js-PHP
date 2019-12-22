@@ -1,15 +1,15 @@
 const Editor = require('./editor')
 const Vue = require('vue/dist/vue.js');
 const UIkit = require('uikit');
+const axios = require('axios');
 
 window.editor = new Editor();
 
 new Vue({
     el: '#app',
-    data() {
-        return {
-            showLoader: true
-        }
+    data: {
+        showLoader: true,
+        pagesList: []
     },
     methods: {
         onBtnSave(){
@@ -28,5 +28,10 @@ new Vue({
         window.editor.open('index.html', ()=>{
             this.showLoader = false;
         })
+        axios.get('./api/getPagesList.php')
+            .then(res => {
+                this.pagesList = res.data
+                console.log(res.data);
+            })
     },
 })
