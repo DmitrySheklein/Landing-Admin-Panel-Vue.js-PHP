@@ -22,6 +22,15 @@ iframe {
     padding: 12px;
     display: flex;
     align-items: center;
+
+    .button-down {
+        padding: 0 15px;
+        margin-left: 5px;    
+    } 
+    
+    .dropdown-menu {
+        padding: 10px;
+    }
 }
 .loader{
     display: flex;
@@ -47,3 +56,4 @@ iframe {
         fill: #fff;
     }
 }
+

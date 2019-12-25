@@ -18,8 +18,7 @@ module.exports = class EditorText {
     }
     onCtxMenu(e){
         e.preventDefault();
-        this.onClick();
-        console.log('ctx');        
+        this.onClick();     
     }
     onBlur(){
         this.element.removeAttribute('contentEditable')

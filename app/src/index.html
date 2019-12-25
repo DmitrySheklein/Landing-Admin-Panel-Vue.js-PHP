@@ -24,6 +24,8 @@
         <div class="panel">
             <button class="uk-button uk-button-primary uk-button-small" uk-toggle="target: #modal-open">Страницы</button>        
             <button class="uk-button uk-button-primary uk-button-small" uk-toggle="target: #modal-example">Опубликовать</button>        
+            <button class="uk-button uk-button-primary uk-button-small button-down"><i class="fas fa-chevron-down"></i></button>  
+            <div uk-dropdown class="dropdown-menu"><button class="uk-button uk-button-primary uk-button-small" uk-toggle="target: #modal-backup">Восстановить бэкап</button> </div>      
         </div>
         <!-- This is the modal -->
         <div id="modal-example" uk-modal>
@@ -42,7 +44,23 @@
                 <h2 class="uk-modal-title">Страницы</h2>
                 <p>Список доступных страниц</p>
                 <ul class="uk-list uk-list-divider">
-                    <li v-for="(item, index) in pagesList"><a class="uk-link-muted" href="#">{{item}}</a></li>
+                    <li v-for="(item, index) in pagesList"><a class="uk-link-muted uk-modal-close" href="#" @click="openPage(item)">{{item}}</a></li>
+                </ul>
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-primary uk-modal-close" type="button">Закрыть</button>
+                </p>
+            </div>
+        </div>
+        <!-- This is the modal -->
+        <div id="modal-backup" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Бекапы</h2>
+                <p>Список доступных бэкапов</p>
+                <div class="uk-alert-danger" uk-alert v-if="!backupList.length">
+                    <p>Не найдено резервных копий</p>
+                </div>                
+                <ul class="uk-list uk-list-divider">
+                    <li v-for="(item, index) in backupList"><a class="uk-link-muted uk-modal-close" href="#" @click="restoreBackup(item)">{{item.page}} - {{ item.time}}</a></li>
                 </ul>
                 <p class="uk-text-right">
                     <button class="uk-button uk-button-primary uk-modal-close" type="button">Закрыть</button>
@@ -54,5 +72,6 @@
         </div>
     </div>
     <script src="bundle.js"></script>
+    <script src="https://kit.fontawesome.com/6bd2fa87b4.js" crossorigin="anonymous"></script>
 </body>
 </html>
