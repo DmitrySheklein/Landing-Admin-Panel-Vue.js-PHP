@@ -18,6 +18,8 @@ iframe {
     box-sizing: border-box;
     position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     height: $panel_height;
     padding: 12px;
     display: flex;
@@ -30,6 +32,9 @@ iframe {
     
     .dropdown-menu {
         padding: 10px;
+    }
+    .save-btn {
+        margin-left: auto;
     }
 }
 .loader{

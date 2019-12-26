@@ -8,27 +8,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!--     <div id="app">
-        <input type="text" v-model="pageName" required>
-        <div>{{pageName}}</div>
-        <button @click="createPage">Создать страницу</button>
-        <ul class="pageList">
-            <li v-for="(page, index) in pageList" :key="index">
-            {{ index }} - {{ page }} <button @click="deletePage(page)">Удалить</button>
-            </li>
-        </ul>
-    </div> -->
     <iframe src="" frameborder="0"></iframe>
     
     <div id="app">
         <div class="panel">
-            <button class="uk-button uk-button-primary uk-button-small" uk-toggle="target: #modal-open">Страницы</button>        
-            <button class="uk-button uk-button-primary uk-button-small" uk-toggle="target: #modal-example">Опубликовать</button>        
             <button class="uk-button uk-button-primary uk-button-small button-down"><i class="fas fa-chevron-down"></i></button>  
             <div uk-dropdown class="dropdown-menu"><button class="uk-button uk-button-primary uk-button-small" uk-toggle="target: #modal-backup">Восстановить бэкап</button> </div>      
+            <button class="uk-button uk-button-default uk-button-small" uk-toggle="target: #modal-open">Страницы</button>        
+            <button class="uk-button uk-button-default uk-button-small" uk-toggle="target: #modal-meta">META-теги</button>        
+
+            <button class="uk-button uk-button-primary uk-button-small save-btn" uk-toggle="target: #modal-save">Опубликовать</button>        
         </div>
         <!-- This is the modal -->
-        <div id="modal-example" uk-modal>
+        <div id="modal-save" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
                 <h2 class="uk-modal-title">Сохранение</h2>
                 <p>Вы действительно хотите сохранить и опублиовать изменения?</p>
@@ -64,6 +56,33 @@
                 </ul>
                 <p class="uk-text-right">
                     <button class="uk-button uk-button-primary uk-modal-close" type="button">Закрыть</button>
+                </p>
+            </div>
+        </div>
+        <!-- This is the modal -->
+        <div id="modal-meta" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Редактировать МЕТА теги</h2>    
+                <form>
+                    <fieldset class="uk-fieldset">
+                
+                        <div class="uk-margin">
+                            <input class="uk-input" type="text" placeholder="Title" v-model="meta.title">
+                        </div>
+                
+                        <div class="uk-margin">
+                            <input class="uk-input" type="text" placeholder="Keywords" v-model="meta.keywords">
+                        </div>
+            
+                
+                        <div class="uk-margin">
+                            <textarea class="uk-textarea" rows="5" placeholder="Description" v-model="meta.description"></textarea>
+                        </div>
+                    </fieldset>
+                </form>
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Отменить</button>
+                    <button class="uk-button uk-button-primary uk-modal-close" type="button" @click="saveMeta">Сохранить</button>
                 </p>
             </div>
         </div>
