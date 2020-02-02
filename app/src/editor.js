@@ -3,6 +3,7 @@ const axios = require('axios')
 const DOMhelper = require('./dom-helper');
 const EditorText = require('./editor-text');
 const EditorMeta = require('./editor-meta');
+const EditorImage = require('./editor-images');
 
 module.exports = class Editor {
     constructor(){
@@ -14,6 +15,7 @@ module.exports = class Editor {
         axios.get('../../' + page + `?rnd=${Math.random()}`)
         .then(res =>DOMhelper.parseStrToDom(res.data))
         .then(DOMhelper.wrapTextNodes)
+        .then(DOMhelper.wrapImages)
         .then((dom)=>{
             this.virtualDom = dom;
             return dom;
@@ -32,6 +34,11 @@ module.exports = class Editor {
             const virtualElement = this.virtualDom.body.querySelector(`[nodeid="${id}"]`);
             new EditorText(el, virtualElement);
         })
+        this.iframe.contentDocument.body.querySelectorAll('[editableimgid]').forEach((el)=>{
+            const id = el.getAttribute('editableimgid');
+            const virtualElement = this.virtualDom.body.querySelector(`[editableimgid="${id}"]`);
+            new EditorImage(el, virtualElement);
+        })        
         this.editorMeta = new EditorMeta(this.virtualDom);
     }
     injectStyle(){
@@ -45,6 +52,9 @@ module.exports = class Editor {
                 outline: 3px solid red;
                 outline-offset: 8px;
             }
+            [editableimgid]:hover {
+                outline: 3px solid red;
+            }
         `
         this.iframe.contentDocument.head.appendChild(style);
     }
@@ -52,6 +62,7 @@ module.exports = class Editor {
     save(onSuccess, onError){
         const newDom = this.virtualDom.cloneNode(this.virtualDom);
         DOMhelper.unwrapTextNodes(newDom)
+        DOMhelper.unWrapImages(newDom)
         const html = DOMhelper.serializeDomToString(newDom);
         axios.post('./api/savePage.php', {pageName: this.currentPage, html })     
             .then(onSuccess)

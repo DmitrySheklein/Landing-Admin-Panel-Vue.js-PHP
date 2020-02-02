@@ -5,7 +5,7 @@ const axios = require('axios');
 
 window.editor = new Editor();
 
-new Vue({
+window.VueApp = new Vue({
     el: '#app',
     data: {
         showLoader: true,
@@ -47,7 +47,7 @@ new Vue({
                     this.backupList = res.data.filter(el=>{
                        return el.page == this.page;
                     })
-                    console.log(this.backupList)
+                    // console.log(this.backupList)
                 })
         },
         restoreBackup(backup){
@@ -67,6 +67,15 @@ new Vue({
         },
         saveMeta(){
             window.editor.editorMeta.saveMeta(this.meta);
+        },
+        enableLoader(){
+            this.showLoader = true;
+        },
+        disableLoader(){
+            this.showLoader = false;
+        },
+        Notification(message = 'Hello', status = 'success'){
+            UIkit.notification({message, status})
         }
     },
     created() {
