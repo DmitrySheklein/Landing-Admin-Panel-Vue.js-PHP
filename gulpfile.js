@@ -22,7 +22,10 @@ gulp.task('build-sass', ()=>{
         .pipe(gulp.dest(dist));
 })
 gulp.task('copy-api', ()=>{
-    return gulp.src('./app/api/**/*.*')
+    gulp.src('./app/api/**/*.*')
+    .pipe(gulp.dest(dist + '/api'))
+
+    gulp.src('./app/api/**/.*')
     .pipe(gulp.dest(dist + '/api'))
 })
 gulp.task('copy-assets', ()=>{

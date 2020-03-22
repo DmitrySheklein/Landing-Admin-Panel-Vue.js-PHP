@@ -16,7 +16,10 @@ window.VueApp = new Vue({
             title: '',
             keywords: '',
             description: ''
-        }
+        },
+        auth: false,
+        password: '',
+        checkPassword: false 
     },
     methods: {
         onBtnSave(){
@@ -76,14 +79,53 @@ window.VueApp = new Vue({
         },
         Notification(message = 'Hello', status = 'success'){
             UIkit.notification({message, status})
+        },
+        login() {
+            if(this.password.length > 5){
+                this.checkPassword = false;
+
+                axios
+                    .post('./api/login.php', {'password': this.password})
+                    .then(res => {
+                        if(res.data.auth === true){
+                            this.auth = res.data.auth;
+                            this.start();
+                        }  else {
+                            this.checkPassword = true
+                        }
+                        console.log(res.data);
+                    })
+            } else {
+                this.checkPassword = true
+            }
+            
+        },
+        onlogout(){
+            axios
+                .get('./api/logout.php')
+                .then(res => {
+                    if(this.auth = res.data.logout) {
+                        window.location.replace('/');
+                    }
+                    // console.log(res.data);
+                })
+        },
+        start(){
+            this.openPage(this.page);
+            axios.get('./api/getPagesList.php')
+                .then(res => {
+                    this.pagesList = res.data
+                })
+            this.loadBackups();
         }
     },
     created() {
-        this.openPage(this.page);
-        axios.get('./api/getPagesList.php')
-            .then(res => {
-                this.pagesList = res.data
+        axios.get('./api/checkAuth.php')
+            .then(res => {     
+                if(res.data.auth === true){
+                    this.start();
+                }       
+                this.auth = res.data.auth;
             })
-        this.loadBackups();
     },
 })

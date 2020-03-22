@@ -13,13 +13,25 @@
     <input type="file" accept="image/*" id="img-uploader" style="display: none;">
 
     <div id="app">
-        <div class="panel">
+        <div class="panel" v-show="auth" style="display: none;">
             <button class="uk-button uk-button-primary uk-button-small button-down"><i class="fas fa-chevron-down"></i></button>  
             <div uk-dropdown class="dropdown-menu"><button class="uk-button uk-button-primary uk-button-small" uk-toggle="target: #modal-backup">Восстановить бэкап</button> </div>      
             <button class="uk-button uk-button-default uk-button-small" uk-toggle="target: #modal-open">Страницы</button>        
             <button class="uk-button uk-button-default uk-button-small" uk-toggle="target: #modal-meta">META-теги</button>        
-
+            
             <button class="uk-button uk-button-primary uk-button-small save-btn" uk-toggle="target: #modal-save">Опубликовать</button>        
+            <button class="uk-button uk-button-default uk-button-danger uk-button-small" uk-toggle="target: #modal-logout" v-if="auth">Выход</button>        
+        </div>
+        <!-- This is the modal -->
+        <div id="modal-logout" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Выход из редактора</h2>
+                <p>Вы действительно хотите выйти?</p>
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Отменить</button>
+                    <button class="uk-button uk-button-primary uk-modal-close" type="button" @click="onlogout">Выйти</button>
+                </p>
+            </div>
         </div>
         <!-- This is the modal -->
         <div id="modal-save" uk-modal>
@@ -90,6 +102,18 @@
         </div>
         <div class="loader" v-bind:class="{'active': showLoader}">
             <div uk-spinner></div>
+        </div>
+        <div class="login-container" v-if="!auth" v-show="!auth" style="display: none;">
+            <div class="login">
+                <h2 class="uk-title">Авторизация</h2>
+                <div class="uk-margin">
+                    <input class="uk-input" type="password" name="" id="" placeholder="Введите пароль" v-model="password" :class="{ 'uk-form-danger': checkPassword}">
+                </div>
+                <div class="uk-margin">
+                    <span class="uk-label uk-label-warning" v-show="password.length < 5">Введите пароль длиной не менее 5 символов</span>
+                </div>
+                <button class="uk-button uk-button-default login-btn" @click="login">Вход</button>
+            </div>
         </div>
     </div>
     <script src="bundle.js"></script>
