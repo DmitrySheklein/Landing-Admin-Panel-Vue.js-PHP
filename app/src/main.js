@@ -44,14 +44,14 @@ window.VueApp = new Vue({
                 this.meta = window.editor.editorMeta.getMeta();
             })
         },
-        loadBackups(){
+        loadBackups() {
             axios.get('./backups/backups.json')
-                .then(res=>{
+                .then((res)=>{                    
                     this.backupList = res.data.filter(el=>{
                        return el.page == this.page;
                     })
-                    // console.log(this.backupList)
                 })
+                .catch((error)=> console.log(error))
         },
         restoreBackup(backup){
             UIkit.modal.confirm('Восстановить бекап?', {
@@ -59,13 +59,12 @@ window.VueApp = new Vue({
                     ok: 'Восстановить',
                     cancel: 'Отмена'
                 }
-            }).then(function() {
-                return axios.post('./api/restoreBackup.php',{'file': backup.file, 'page': backup.page, 'time': backup.time})
+            })
+            .then(function() {
+                return axios.post('./api/restoreBackup.php',{'file': backup.file, 'page': backup.page, 'time': backup.time}).then(res =>  UIkit.notification({message: res.data.msg, status: (res.data.status == 'ok') ? 'success':'danger'}) )
             })
             .then(()=>{
-                window.editor.open(this.page, ()=>{
-                    this.showLoader = false;
-                })
+                this.openPage(this.page);
             })
         },
         saveMeta(){
@@ -116,7 +115,6 @@ window.VueApp = new Vue({
                 .then(res => {
                     this.pagesList = res.data
                 })
-            this.loadBackups();
         }
     },
     created() {

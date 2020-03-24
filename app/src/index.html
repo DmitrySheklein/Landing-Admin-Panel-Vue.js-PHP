@@ -106,13 +106,15 @@
         <div class="login-container" v-if="!auth" v-show="!auth" style="display: none;">
             <div class="login">
                 <h2 class="uk-title">Авторизация</h2>
-                <div class="uk-margin">
-                    <input class="uk-input" type="password" name="" id="" placeholder="Введите пароль" v-model="password" :class="{ 'uk-form-danger': checkPassword}">
-                </div>
-                <div class="uk-margin">
-                    <span class="uk-label uk-label-warning" v-show="password.length < 5">Введите пароль длиной не менее 5 символов</span>
-                </div>
-                <button class="uk-button uk-button-default login-btn" @click="login">Вход</button>
+                <form action="#" v-on:submit.prevent="login">
+                    <div class="uk-margin">
+                        <input class="uk-input" type="password" name="" id="" placeholder="Введите пароль" v-model="password" :class="{ 'uk-form-danger': checkPassword}">
+                    </div>
+                    <div class="uk-margin">
+                        <span class="uk-label uk-label-warning" v-show="password.length < 5">Введите пароль длиной не менее 5 символов</span>
+                    </div>
+                    <button type="submit" class="uk-button uk-button-default login-btn">Вход</button>
+                </form>
             </div>
         </div>
     </div>
